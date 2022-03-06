@@ -11,7 +11,9 @@ import {
   StyleSheet,
   Alert,
   Dimensions,
+  Keyboard,
 } from 'react-native';
+import Header from '../components/Header';
 
 const width = Dimensions.get('window').width;
 
@@ -20,7 +22,6 @@ const Todo = () => {
   const dispatch = useDispatch();
   const data = useSelector(state => state);
   const todos = data.todos.todos;
-  //   console.log('🚀 ~ file: Todo.js ~ line 18 ~ Todo ~ todos', todos);
 
   const addTodo = () => {
     if (todos && !todos.includes(todoValue)) {
@@ -29,6 +30,7 @@ const Todo = () => {
     } else {
       Alert.alert('Alert', `${todoValue} already added in Todo List`);
     }
+    Keyboard.dismiss();
   };
 
   const removeTodo = item => {
@@ -44,6 +46,9 @@ const Todo = () => {
     return (
       <FlatList
         data={todos}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
         renderItem={({item}) => (
           <View style={styles.todoView}>
             <View style={styles.todoList}>
@@ -62,6 +67,7 @@ const Todo = () => {
 
   return (
     <View style={styles.main}>
+      <Header title="Todo List" />
       <TextInput
         style={styles.mainInput}
         onChangeText={setTodoValue}
@@ -78,6 +84,8 @@ const Todo = () => {
 const styles = StyleSheet.create({
   main: {
     alignItems: 'center',
+    flex: 1,
+    flexGrow: 1,
   },
   mainInput: {
     borderWidth: 1,
@@ -107,7 +115,8 @@ const styles = StyleSheet.create({
   },
   todoHeading: {
     alignSelf: 'stretch',
-    paddingLeft: 40,
+    paddingLeft: width * 0.08,
+    //   backgroundColor: 'red',
   },
 });
 
